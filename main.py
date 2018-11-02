@@ -10,6 +10,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import os
+import pya3rt
 
 app = Flask(__name__)
 
@@ -18,6 +19,8 @@ channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
+talk_api = os.getenv('talk_api', None)
+talk = pya3rt.TalkClient(talk_api)
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -39,11 +42,16 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    message_list = event.message.text.split()
+    reply_mes = talk.talk(event.message.text)
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text=reply_mes))
 
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+#URL受信
+#URLを元に音楽ファイルDLし送信
