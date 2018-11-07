@@ -43,11 +43,12 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message_list = event.message.text.split()
-    if message[:5] == "json:":
-        reply_mes = json.dumps(json.loads(message[5:]), indent=2)
+    mtext = event.message.text
+    message_list = mtext.split()
+    if mtext[:5] == "json:":
+        reply_mes = json.dumps(json.loads(mtext[5:]), indent=2)
     else:
-        reply_mes = talk.talk(event.message.text)["results"][0]["reply"]
+        reply_mes = talk.talk(mtext)["results"][0]["reply"]
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=reply_mes))
