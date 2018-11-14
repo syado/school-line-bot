@@ -92,7 +92,7 @@ def handle_image(event):
     path_tmp = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tmp")
     if not os.path.exists(path_tmp):
         os.mkdir(path_tmp)
-    path_tmp+=str(uuid.uuid4())+".jpg"
+    fp = path_tmp+"/"+str(uuid.uuid4())+".jpg"
     with open(fp, 'wb') as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
