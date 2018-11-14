@@ -89,7 +89,10 @@ def handle_image(event):
     message_id = event.message.id
     print(message_id)
     message_content = line_bot_api.get_message_content(message_id)
-    fp = "./tmp/"+str(uuid.uuid4())+".jpg"
+    path_tmp = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tmp")
+    if not os.path.exists(path_tmp):
+        os.mkdir(path_tmp)
+    path_tmp+=str(uuid.uuid4())+".jpg"
     with open(fp, 'wb') as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
