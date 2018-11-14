@@ -89,7 +89,7 @@ def handle_image(event):
     message_id = event.message.id
     print(message_id)
     message_content = line_bot_api.get_message_content(message_id)
-    fp = "tmp/"+str(uuid.uuid4())+".jpg"
+    fp = "./tmp/"+str(uuid.uuid4())+".jpg"
     with open(fp, 'wb') as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
